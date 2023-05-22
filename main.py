@@ -51,13 +51,13 @@ def lookup_address(text):
 
 def show_address_lookup():
     st.markdown(
-        "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='313' /></picture></div>",
+        "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='200' /></picture></div>",
         unsafe_allow_html=True,
     )
 
     place_id = st_searchbox(
         lookup_address,
-        label="Start typing an address:",
+        label="Enter an address to view location insights:",
         placeholder="e.g. 123 Main St, Anytown, USA",
         clear_on_submit=True,
         key="address",
