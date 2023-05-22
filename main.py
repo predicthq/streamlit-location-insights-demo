@@ -16,6 +16,7 @@ from utils.predicthq import (
 from utils.google import places_autocomplete, get_place_details
 from utils.map import show_map
 from utils.metrics import show_metrics
+from utils.analytics import add_heap_tracking
 
 
 def main():
@@ -27,6 +28,8 @@ def main():
         show_address_lookup()
     else:
         st.warning("Please set a PredictHQ API Token.", icon="⚠️")
+
+    add_heap_tracking()
 
 
 def lookup_address(text):
