@@ -54,7 +54,7 @@ def show_address_lookup():
 
     place_id = st_searchbox(
         lookup_address,
-        label="Enter an address to view location insights:",
+        label="Enter your location to see what you've been missing out on:",
         placeholder="e.g. 123 Main St, Anytown, USA",
         clear_on_submit=True,
         key="address",
@@ -88,7 +88,8 @@ def show_location_insights(place_id):
     # st.write(suggested_radius)
 
     # st.write(place_details)
-    st.header(name)
+    # st.header(name)
+    st.header(f"Over the next 90 days in {name}, you could be missing out on:")
 
     # Display metrics
     show_metrics(

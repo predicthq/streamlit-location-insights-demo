@@ -106,16 +106,16 @@ def show_metrics(
     previous_demand_surges_count = len(previous_demand_surges)
 
     # Display metrics
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    # with col1:
+    #     st.metric(
+    #         label="Suggested Radius",
+    #         value=f"{suggested_radius['radius']}{suggested_radius['radius_unit']}",
+    #         help="[Suggested Radius Docs](https://docs.predicthq.com/resources/suggested-radius)",
+    #     )
 
     with col1:
-        st.metric(
-            label="Suggested Radius",
-            value=f"{suggested_radius['radius']}{suggested_radius['radius_unit']}",
-            help="[Suggested Radius Docs](https://docs.predicthq.com/resources/suggested-radius)",
-        )
-
-    with col2:
         delta_pct = calc_delta_pct(phq_attendance_sum, previous_phq_attendance_sum)
         st.metric(
             label="Predicted Attendance",
@@ -124,7 +124,7 @@ def show_metrics(
             help=f"The predicted number of people attending events in the selected date range. Previous period: {previous_phq_attendance_sum:,.0f}.",
         )
 
-    with col3:
+    with col2:
         delta_pct = calc_delta_pct(
             average_daily_attendance, previous_average_daily_attendance
         )
@@ -135,7 +135,7 @@ def show_metrics(
             help=f"The average daily predicted number of people attending events in the selected date range. Previous period: {previous_average_daily_attendance:,.0f}.",
         )
 
-    with col4:
+    with col3:
         delta_pct = calc_delta_pct(attended_events_sum, previous_attended_events_sum)
         st.metric(
             label="Attended Events",
@@ -144,7 +144,7 @@ def show_metrics(
             help=f"Total number of attended events in the selected date range. Previous period: {previous_attended_events_sum}.",
         )
 
-    with col5:
+    with col4:
         delta_pct = calc_delta_pct(
             non_attended_events_sum, previous_non_attended_events_sum
         )
@@ -155,7 +155,7 @@ def show_metrics(
             help=f"Total number of non-attended events in the selected date range. Previous period: {previous_non_attended_events_sum}.",
         )
 
-    with col6:
+    with col5:
         delta_pct = calc_delta_pct(demand_surges_count, previous_demand_surges_count)
         st.metric(
             label="Demand Surges",
