@@ -51,7 +51,7 @@ def show_address_lookup():
         "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='200' /></picture></div>",
         unsafe_allow_html=True,
     )
-    st.title("Find what events you’ve been missing : ")
+    st.title("Find the events you’ve been missing : ")
 
     place_id = st_searchbox(
         lookup_address,
