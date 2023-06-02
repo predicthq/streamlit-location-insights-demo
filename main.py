@@ -52,10 +52,11 @@ def show_address_lookup():
         unsafe_allow_html=True,
     )
     st.title("Unlock the untapped potential of your restaurant!")
+    st.subheader("_Discover nearby events that will fill your tables and boost your revenue :_")
 
     place_id = st_searchbox(
         lookup_address,
-        label=" Discover nearby events that will fill your tables and boost your revenue :",
+        # label="Discover nearby events that will fill your tables and boost your revenue :",
         placeholder="e.g. 123 Main St, Anytown, USA",
         clear_on_submit=True,
         key="address",
