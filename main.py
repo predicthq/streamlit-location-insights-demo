@@ -184,7 +184,7 @@ def show_events_list(events):
             "Placekey": event["geo"]["placekey"]
             if "geo" in event and "placekey" in event["geo"]
             else "",
-            "Predicted Event Spend": f"${event['predicted_event_spend']:,.2f}"
+            "Predicted Event Spend": f"${event['predicted_event_spend']:,.0f}"
             if "predicted_event_spend" in event and event["predicted_event_spend"] is not None
             else "",
             # predicted_event_spend_industries
