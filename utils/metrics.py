@@ -105,9 +105,9 @@ def show_metrics(
     # previous_demand_surges_count = len(previous_demand_surges)
 
     # Display metrics
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4 = st.columns(4)
     # Display metrics
-    col12, col22, col32, col42, col52 = st.columns(5)
+    col12, col22, col32, col42 = st.columns(4)
 
     # with col1:
     #     st.metric(
