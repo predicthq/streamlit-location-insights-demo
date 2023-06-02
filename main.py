@@ -163,23 +163,26 @@ def show_events_list(events):
 
         row = {
             # "id": event["id"],
-            "title": event["title"],
-            "phq_attendance": event["phq_attendance"] if event["phq_attendance"] else 0,
-            "category": event["category"],
-            "start_date_local": event["start"]
+            "Event Title": event["title"],
+            "PHQ Attendance": event["phq_attendance"] if event["phq_attendance"] else 0,
+            "Category": event["category"],
+            "Start Date (local tz)": event["start"]
             .astimezone(pytz.timezone(event["timezone"]))
-            .isoformat(),
-            "end_date_local": event["end"]
+            .strftime('%d-%b-%Y %H:%M'),
+            # .isoformat(),
+            "End Date (local tz)": event["end"]
             .astimezone(pytz.timezone(event["timezone"]))
-            .isoformat(),
-            "predicted_end_date_local": event["predicted_end"]
+            .strftime('%d-%b-%Y %H:%M'),
+            # .isoformat(),
+            "Predicted End Date (local tz)": event["predicted_end"]
             .astimezone(pytz.timezone(event["timezone"]))
-            .isoformat()
+            .strftime('%d-%b-%Y %H:%M')
+            # .isoformat()
             if "predicted_end" in event and event["predicted_end"] is not None
             else "",
-            "venue_name": venue["name"] if venue else "",
-            "venue_address": venue["formatted_address"] if venue else "",
-            "placekey": event["geo"]["placekey"]
+            "Venue Name": venue["name"] if venue else "",
+            "Venue Address": venue["formatted_address"] if venue else "",
+            "Placekey": event["geo"]["placekey"]
             if "geo" in event and "placekey" in event["geo"]
             else "",
         }
