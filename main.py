@@ -16,6 +16,7 @@ from utils.predicthq import (
 from utils.google import places_autocomplete, get_place_details
 from utils.map import show_map
 from utils.metrics import show_metrics
+from dateutil.parser import parse as parse_date
 
 
 def main():
@@ -167,18 +168,15 @@ def show_events_list(events):
             "Event Title": event["title"],
             "PHQ Attendance": event["phq_attendance"] if event["phq_attendance"] else 0,
             "Category": event["category"],
-            "Start Date (local tz)": event["start"]
-            .astimezone(pytz.timezone(event["timezone"]))
+            "Start Date (local tz)": parse_date(event["start"])
+            # .astimezone(pytz.timezone(event["timezone"]))
             .strftime('%d-%b-%Y %H:%M'),
-            # .isoformat(),
-            "End Date (local tz)": event["end"]
-            .astimezone(pytz.timezone(event["timezone"]))
+            "End Date (local tz)": parse_date(event["end"])
+            # .astimezone(pytz.timezone(event["timezone"]))
             .strftime('%d-%b-%Y %H:%M'),
-            # .isoformat(),
-            "Predicted End Date (local tz)": event["predicted_end"]
-            .astimezone(pytz.timezone(event["timezone"]))
+            "Predicted End Date (local tz)": parse_date(event["predicted_end"])
+            # .astimezone(pytz.timezone(event["timezone"]))
             .strftime('%d-%b-%Y %H:%M')
-            # .isoformat()
             if "predicted_end" in event and event["predicted_end"] is not None
             else "",
             "Venue Name": venue["name"] if venue else "",
@@ -186,6 +184,11 @@ def show_events_list(events):
             "Placekey": event["geo"]["placekey"]
             if "geo" in event and "placekey" in event["geo"]
             else "",
+            "Predicted Event Spend": f"${event['predicted_event_spend']:,.2f}"
+            if "predicted_event_spend" in event and event["predicted_event_spend"] is not None
+            else "",
+            # predicted_event_spend_industries
+            # hospitality
         }
 
         results.append(row)

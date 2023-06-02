@@ -115,30 +115,54 @@ def fetch_features(lat, lon, radius, date_from, date_to, features=[], radius_uni
 
 #     return results
 
-
 @st.cache_data
 def fetch_events(
     lat, lon, radius, date_from, date_to, tz="UTC", categories=[], radius_unit="mi"
-):
-    """
-    Events API works with UTC time and you can specify a different timezone for the date range
-    but all results are always in UTC so must be converted to the local timezone.
-    """
-    phq = get_predicthq_client()
-    events = phq.events.search(
-        within=f"{radius}{radius_unit}@{lat},{lon}",
-        active={
-            "gte": date_from,
-            "lte": date_to,
-            "tz": tz,
+ ):
+    r = requests.get(
+        url="https://api.predicthq.com/v1/events/",
+        headers={
+            "Authorization": f"Bearer {get_api_key()}",
+            "Accept": "application/json",
         },
-        category=",".join(categories),
-        state="active",
-        limit=200,
-        sort="phq_attendance",
+        params={
+            "within" : f"{radius}{radius_unit}@{lat},{lon}",
+            "active.gte" : date_from,
+            "active.lte" : date_to,
+            "tz": tz,
+            "category" : ",".join(categories),
+            "state": "active",
+            "limit" : 200,
+            "sort" : "phq_attendance",
+        },
+        allow_redirects=False,
     )
+    
+    return r.json()
 
-    return events.to_dict()
+# @st.cache_data
+# def fetch_events(
+#     lat, lon, radius, date_from, date_to, tz="UTC", categories=[], radius_unit="mi"
+# ):
+#     """
+#     Events API works with UTC time and you can specify a different timezone for the date range
+#     but all results are always in UTC so must be converted to the local timezone.
+#     """
+#     phq = get_predicthq_client()
+#     events = phq.events.search(
+#         within=f"{radius}{radius_unit}@{lat},{lon}",
+#         active={
+#             "gte": date_from,
+#             "lte": date_to,
+#             "tz": tz,
+#         },
+#         category=",".join(categories),
+#         state="active",
+#         limit=200,
+#         sort="phq_attendance",
+#     )
+
+#     return events.to_dict()
 
 
 @st.cache_data
