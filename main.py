@@ -51,10 +51,11 @@ def show_address_lookup():
         "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='200' /></picture></div>",
         unsafe_allow_html=True,
     )
+    st.title("Find what events you’ve been missing : ")
 
     place_id = st_searchbox(
         lookup_address,
-        label="Enter your location to see what you've been missing out on:",
+        # label="Enter your location to see what you've been missing out on:",
         placeholder="e.g. 123 Main St, Anytown, USA",
         clear_on_submit=True,
         key="address",
@@ -161,7 +162,7 @@ def show_events_list(events):
         )
 
         row = {
-            "id": event["id"],
+            # "id": event["id"],
             "title": event["title"],
             "phq_attendance": event["phq_attendance"] if event["phq_attendance"] else 0,
             "category": event["category"],

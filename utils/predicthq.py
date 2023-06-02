@@ -79,41 +79,41 @@ def fetch_features(lat, lon, radius, date_from, date_to, features=[], radius_uni
     return features.to_dict()
 
 
-@st.cache_data
-def fetch_demand_surges(
-    lat, lon, radius, date_from, date_to, min_surge_intensity="m", radius_unit="mi"
-):
-    """
-    The Demand Surge API works with local time just like the Features API.
-    """
-    r = requests.get(
-        url="https://api.predicthq.com/v1/demand-surge",
-        headers={
-            "Authorization": f"Bearer {get_api_key()}",
-            "Accept": "application/json",
-        },
-        params={
-            "location.origin": f"{lat},{lon}",
-            "location.radius": f"{radius}{radius_unit}",
-            "date_from": date_from,
-            "date_to": date_from + datetime.timedelta(days=90),
-            "min_surge_intensity": min_surge_intensity,
-        },
-        allow_redirects=False,
-    )
+# @st.cache_data
+# def fetch_demand_surges(
+#     lat, lon, radius, date_from, date_to, min_surge_intensity="m", radius_unit="mi"
+# ):
+#     """
+#     The Demand Surge API works with local time just like the Features API.
+#     """
+#     r = requests.get(
+#         url="https://api.predicthq.com/v1/demand-surge",
+#         headers={
+#             "Authorization": f"Bearer {get_api_key()}",
+#             "Accept": "application/json",
+#         },
+#         params={
+#             "location.origin": f"{lat},{lon}",
+#             "location.radius": f"{radius}{radius_unit}",
+#             "date_from": date_from,
+#             "date_to": date_from + datetime.timedelta(days=90),
+#             "min_surge_intensity": min_surge_intensity,
+#         },
+#         allow_redirects=False,
+#     )
 
-    json = r.json()
-    results = []
+#     json = r.json()
+#     results = []
 
-    for demand_surge in json["surge_dates"]:
-        # When fetching demand surge dates from the API we have to use a 90d period,
-        # so we need to filter out the dates that are outside of the date range we're interested in.
-        date = datetime.datetime.strptime(demand_surge["date"], "%Y-%m-%d").date()
+#     for demand_surge in json["surge_dates"]:
+#         # When fetching demand surge dates from the API we have to use a 90d period,
+#         # so we need to filter out the dates that are outside of the date range we're interested in.
+#         date = datetime.datetime.strptime(demand_surge["date"], "%Y-%m-%d").date()
 
-        if date_from <= date <= date_to:
-            results.append(demand_surge)
+#         if date_from <= date <= date_to:
+#             results.append(demand_surge)
 
-    return results
+#     return results
 
 
 @st.cache_data

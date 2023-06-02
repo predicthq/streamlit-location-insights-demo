@@ -3,7 +3,6 @@ import datetime
 import pandas as pd
 from utils.predicthq import (
     fetch_features,
-    fetch_demand_surges,
     fetch_event_counts,
     calc_sum_of_features,
     calc_sum_of_event_counts,
@@ -85,28 +84,30 @@ def show_metrics(
     )
 
     # Fetch Demand Surges
-    demand_surges = fetch_demand_surges(
-        lat,
-        lon,
-        radius,
-        date_from=date_from,
-        date_to=date_to,
-        radius_unit=radius_unit,
-    )
-    demand_surges_count = len(demand_surges)
+    # demand_surges = fetch_demand_surges(
+    #     lat,
+    #     lon,
+    #     radius,
+    #     date_from=date_from,
+    #     date_to=date_to,
+    #     radius_unit=radius_unit,
+    # )
+    # demand_surges_count = len(demand_surges)
 
-    previous_demand_surges = fetch_demand_surges(
-        lat,
-        lon,
-        radius,
-        date_from=previous_date_from,
-        date_to=previous_date_to,
-        radius_unit=radius_unit,
-    )
-    previous_demand_surges_count = len(previous_demand_surges)
+    # previous_demand_surges = fetch_demand_surges(
+    #     lat,
+    #     lon,
+    #     radius,
+    #     date_from=previous_date_from,
+    #     date_to=previous_date_to,
+    #     radius_unit=radius_unit,
+    # )
+    # previous_demand_surges_count = len(previous_demand_surges)
 
     # Display metrics
     col1, col2, col3, col4, col5 = st.columns(5)
+    # Display metrics
+    col12, col22, col32, col42, col52 = st.columns(5)
 
     # with col1:
     #     st.metric(
@@ -118,51 +119,62 @@ def show_metrics(
     with col1:
         delta_pct = calc_delta_pct(phq_attendance_sum, previous_phq_attendance_sum)
         st.metric(
-            label="Predicted Attendance",
+            label="**Predicted Attendance**",
             value=f"{phq_attendance_sum:,.0f}",
             delta=f"{delta_pct:,.0f}%",
             help=f"The predicted number of people attending events in the selected date range. Previous period: {previous_phq_attendance_sum:,.0f}.",
         )
+    with col12:
+        st.caption("Difference to previous 90 day period")
 
     with col2:
         delta_pct = calc_delta_pct(
             average_daily_attendance, previous_average_daily_attendance
         )
         st.metric(
-            label="Avg Daily Attendance",
+            label="**Avg Daily Attendance**",
             value=f"{average_daily_attendance:,.0f}",
             delta=f"{delta_pct:,.0f}%",
             help=f"The average daily predicted number of people attending events in the selected date range. Previous period: {previous_average_daily_attendance:,.0f}.",
         )
+    
+    with col22:
+        st.caption("Difference to previous 90 day period")
 
     with col3:
         delta_pct = calc_delta_pct(attended_events_sum, previous_attended_events_sum)
         st.metric(
-            label="Attended Events",
+            label="**Attended Events**",
             value=attended_events_sum,
             delta=f"{delta_pct:,.0f}%",
             help=f"Total number of attended events in the selected date range. Previous period: {previous_attended_events_sum}.",
         )
+
+    with col32:
+        st.caption("Difference to previous 90 day period")
 
     with col4:
         delta_pct = calc_delta_pct(
             non_attended_events_sum, previous_non_attended_events_sum
         )
         st.metric(
-            label="Non-Attended Events",
+            label="**Holidays & Observances**",
             value=non_attended_events_sum,
             delta=f"{delta_pct:,.0f}%",
             help=f"Total number of non-attended events in the selected date range. Previous period: {previous_non_attended_events_sum}.",
         )
+    
+    with col42:
+        st.caption("Difference to previous 90 day period")
 
-    with col5:
-        delta_pct = calc_delta_pct(demand_surges_count, previous_demand_surges_count)
-        st.metric(
-            label="Demand Surges",
-            value=demand_surges_count,
-            delta=f"{delta_pct:,.0f}%",
-            help=f"Number of [Demand Surges](https://docs.predicthq.com/resources/demand-surge) in the selected date range. Previous period: {previous_demand_surges_count}.",
-        )
+    # with col5:
+    #     delta_pct = calc_delta_pct(demand_surges_count, previous_demand_surges_count)
+    #     st.metric(
+    #         label="Demand Surges",
+    #         value=demand_surges_count,
+    #         delta=f"{delta_pct:,.0f}%",
+    #         help=f"Number of [Demand Surges](https://docs.predicthq.com/resources/demand-surge) in the selected date range. Previous period: {previous_demand_surges_count}.",
+    #     )
 
 
 def calc_delta_pct(current, previous):
