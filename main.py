@@ -51,11 +51,11 @@ def show_address_lookup():
         "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='200' /></picture></div>",
         unsafe_allow_html=True,
     )
-    st.title("Uncover nearby events that fill your tables")
+    st.title("Unlock the untapped potential of your restaurant!")
 
     place_id = st_searchbox(
         lookup_address,
-        # label="Enter your location to see what you've been missing out on:",
+        label=" Discover nearby events that will fill your tables and boost your revenue :",
         placeholder="e.g. 123 Main St, Anytown, USA",
         clear_on_submit=True,
         key="address",
