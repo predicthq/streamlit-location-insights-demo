@@ -169,13 +169,13 @@ def show_events_list(events):
             "PHQ Attendance": event["phq_attendance"] if event["phq_attendance"] else 0,
             "Category": event["category"],
             "Start Date (local tz)": parse_date(event["start"])
-            # .astimezone(pytz.timezone(event["timezone"]))
+            .astimezone(pytz.timezone(event["timezone"]))
             .strftime('%d-%b-%Y %H:%M'),
             "End Date (local tz)": parse_date(event["end"])
-            # .astimezone(pytz.timezone(event["timezone"]))
+            .astimezone(pytz.timezone(event["timezone"]))
             .strftime('%d-%b-%Y %H:%M'),
             "Predicted End Date (local tz)": parse_date(event["predicted_end"])
-            # .astimezone(pytz.timezone(event["timezone"]))
+            .astimezone(pytz.timezone(event["timezone"]))
             .strftime('%d-%b-%Y %H:%M')
             if "predicted_end" in event and event["predicted_end"] is not None
             else "",
@@ -187,8 +187,9 @@ def show_events_list(events):
             "Predicted Event Spend": f"${event['predicted_event_spend']:,.0f}"
             if "predicted_event_spend" in event and event["predicted_event_spend"] is not None
             else "",
-            # predicted_event_spend_industries
-            # hospitality
+            "Predicted Event Spend (Hospitality)": f"${event['predicted_event_spend_industries']['hospitality']:,.0f}"
+            if "predicted_event_spend_industries" in event and event["predicted_event_spend_industries"]["hospitality"] is not None
+            else "",
         }
 
         results.append(row)
