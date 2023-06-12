@@ -52,7 +52,7 @@ def show_address_lookup():
         "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='200' /></picture><p>This app was built in minutes using our API. Ask us for a copy of the code to build your own.</p></div>",
         unsafe_allow_html=True,
     )
-    st.title("UDiscover nearby events that will fill your tables and boost your revenue :")
+    st.title("Discover nearby events that will fill your tables and boost your revenue :")
 
     place_id = st_searchbox(
         lookup_address,
