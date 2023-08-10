@@ -32,9 +32,7 @@ def main():
 
 def lookup_address(text):
     if len(text) > 0:
-        results = places_autocomplete(
-            text, session_token=st.session_state.google_session_token
-        )
+        results = places_autocomplete(text, session_token=st.session_state.google_session_token)
 
         return [
             (
@@ -52,7 +50,7 @@ def show_address_lookup():
         "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='200' /></picture><p>This app was built in minutes using our API. Ask us for a copy of the code to build your own.</p></div>",
         unsafe_allow_html=True,
     )
-    st.title("Discover nearby events that will fill your tables and boost your revenue :")
+    st.title("Discover and unlock the power of event intelligence for your hotel locations:")
 
     place_id = st_searchbox(
         lookup_address,
@@ -121,9 +119,7 @@ def show_location_insights(place_id):
     show_map(
         lat=lat,
         lon=lon,
-        radius_meters=calc_meters(
-            suggested_radius["radius"], suggested_radius["radius_unit"]
-        ),
+        radius_meters=calc_meters(suggested_radius["radius"], suggested_radius["radius_unit"]),
         events=events,
     )
 
@@ -133,9 +129,7 @@ def show_location_insights(place_id):
 @st.cache_data
 def fetch_suggested_radius(lat, lon, radius_unit="mi", industry="parking"):
     phq = get_predicthq_client()
-    suggested_radius = phq.radius.search(
-        location__origin=f"{lat},{lon}", radius_unit=radius_unit, industry=industry
-    )
+    suggested_radius = phq.radius.search(location__origin=f"{lat},{lon}", radius_unit=radius_unit, industry=industry)
 
     return suggested_radius.to_dict()
 
@@ -158,9 +152,7 @@ def show_events_list(events):
     results = []
 
     for event in events["results"]:
-        venue = next(
-            filter(lambda entity: entity["type"] == "venue", event["entities"]), None
-        )
+        venue = next(filter(lambda entity: entity["type"] == "venue", event["entities"]), None)
 
         row = {
             # "id": event["id"],
@@ -169,25 +161,24 @@ def show_events_list(events):
             "Category": event["category"],
             "Start Date (local tz)": parse_date(event["start"])
             .astimezone(pytz.timezone(event["timezone"]))
-            .strftime('%d-%b-%Y %H:%M'),
+            .strftime("%d-%b-%Y %H:%M"),
             "End Date (local tz)": parse_date(event["end"])
             .astimezone(pytz.timezone(event["timezone"]))
-            .strftime('%d-%b-%Y %H:%M'),
+            .strftime("%d-%b-%Y %H:%M"),
             "Predicted End Date (local tz)": parse_date(event["predicted_end"])
             .astimezone(pytz.timezone(event["timezone"]))
-            .strftime('%d-%b-%Y %H:%M')
+            .strftime("%d-%b-%Y %H:%M")
             if "predicted_end" in event and event["predicted_end"] is not None
             else "",
             "Venue Name": venue["name"] if venue else "",
             "Venue Address": venue["formatted_address"] if venue else "",
-            "Placekey": event["geo"]["placekey"]
-            if "geo" in event and "placekey" in event["geo"]
-            else "",
+            "Placekey": event["geo"]["placekey"] if "geo" in event and "placekey" in event["geo"] else "",
             "Predicted Event Spend": f"${event['predicted_event_spend']:,.0f}"
             if "predicted_event_spend" in event and event["predicted_event_spend"] is not None
             else "",
             "Predicted Event Spend (Hospitality)": f"${event['predicted_event_spend_industries']['hospitality']:,.0f}"
-            if "predicted_event_spend_industries" in event and event["predicted_event_spend_industries"]["hospitality"] is not None
+            if "predicted_event_spend_industries" in event
+            and event["predicted_event_spend_industries"]["hospitality"] is not None
             else "",
         }
 
