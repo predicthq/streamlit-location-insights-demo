@@ -82,7 +82,7 @@ def show_location_insights(place_id):
 
     categories = ATTENDED_CATEGORIES
 
-    suggested_radius = fetch_suggested_radius(lat, lon, radius_unit="mi")
+    suggested_radius = fetch_suggested_radius(lat, lon, radius_unit="mi", industry="accommodation")
     radius = suggested_radius["radius"]
     radius_unit = suggested_radius["radius_unit"]
     # st.write(suggested_radius)
