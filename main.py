@@ -47,7 +47,18 @@ def lookup_address(text):
 
 def show_address_lookup():
     st.markdown(
-        "<div style='text-align: center;'><picture><source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'><img src='app/static/predicthq-logo-black.png' width='200' /></picture><p>This app was built in minutes using our API. Ask us for a copy of the code to build your own.</p></div>",
+        """
+        <div style='text-align: center;'>
+            <picture>
+                <source srcset='app/static/predicthq-logo-white.png' media='(prefers-color-scheme: dark)'>
+                <img src='app/static/predicthq-logo-black.png' width='200' />
+            </picture>
+            <p>
+                This app was built in minutes using our API.
+                Get the code for this app at <a href='https://github.com/predicthq/streamlit-location-insights-demo' target='_blank'>GitHub</a>.
+            </p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
     st.title("Discover and unlock the power of event intelligence for your hotel locations:")
