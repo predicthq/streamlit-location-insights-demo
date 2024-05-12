@@ -1,0 +1,12 @@
+[tool.ruff]
+line-length = 120 # Same as Black.
+target-version = "py312"
+show-fixes = true
+select = ["E", "F", "I", "ERA", "U", "G010", "W", "RUF"]
+
+[tool.ruff.per-file-ignores]
+# ignore import unused and shadowing errors in tests - we use them for importing fixtures
+"tests/**/*.py" = ["F401", "F811"]
+
+[tool.mypy]
+exclude = ["venv"]

@@ -22,5 +22,8 @@ You'll need to get an API token by following the instructions at [https://docs.p
 ```
 api_key = "<your API token>"
 google_api_key = "<your google API token for address lookups>"
+
+title = "Discover and unlock the power of event intelligence for your locations:"
+suggested_radius_industry = "accommodation"
 ```
 

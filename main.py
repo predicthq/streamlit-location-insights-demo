@@ -3,7 +3,7 @@ import uuid
 import datetime
 import pytz
 import pandas as pd
-from streamlit_searchbox import st_searchbox
+from streamlit_searchbox import st_searchbox # type: ignore
 from utils.pages import set_page_config
 from utils.predicthq import (
     get_api_key,
@@ -61,7 +61,7 @@ def show_address_lookup():
         """,
         unsafe_allow_html=True,
     )
-    st.title("Discover and unlock the power of event intelligence for your hotel locations:")
+    st.title(st.secrets["title"])
 
     place_id = st_searchbox(
         lookup_address,
@@ -92,11 +92,9 @@ def show_location_insights(place_id):
     date_to = date_from + datetime.timedelta(days=90)
 
     categories = ATTENDED_CATEGORIES
+    suggested_radius_industry = st.secrets["suggested_radius_industry"] if "suggested_radius_industry" in st.secrets else "accommodation"
 
-    suggested_radius = fetch_suggested_radius(lat, lon, radius_unit="mi", industry="accommodation")
-    radius = suggested_radius["radius"]
-    radius_unit = suggested_radius["radius_unit"]
-    # st.write(suggested_radius)
+    radius, radius_unit = fetch_suggested_radius(lat, lon, radius_unit="mi", industry=suggested_radius_industry)
 
     # st.write(place_details)
     # st.header(name)
@@ -110,8 +108,8 @@ def show_location_insights(place_id):
         radius_unit=radius_unit,
         date_from=date_from,
         date_to=date_to,
-        suggested_radius=suggested_radius,
-        tz=tz,
+        suggested_radius={"radius": radius, "radius_unit": radius_unit},
+        tz=tz
     )
 
     # Fetch events
@@ -123,14 +121,14 @@ def show_location_insights(place_id):
         date_to=date_to,
         tz=tz,
         categories=categories,
-        radius_unit=suggested_radius["radius_unit"],
+        radius_unit=radius_unit,
     )
 
     # Show map and convert radius miles to meters (the map only supports meters)
     show_map(
         lat=lat,
         lon=lon,
-        radius_meters=calc_meters(suggested_radius["radius"], suggested_radius["radius_unit"]),
+        radius_meters=calc_meters(radius, radius_unit),
         events=events,
     )
 
@@ -142,7 +140,7 @@ def fetch_suggested_radius(lat, lon, radius_unit="mi", industry="parking"):
     phq = get_predicthq_client()
     suggested_radius = phq.radius.search(location__origin=f"{lat},{lon}", radius_unit=radius_unit, industry=industry)
 
-    return suggested_radius.to_dict()
+    return suggested_radius.radius, suggested_radius.radius_unit
 
 
 def calc_meters(value, unit):

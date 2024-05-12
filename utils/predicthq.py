@@ -1,7 +1,7 @@
 import datetime
 import requests
 import streamlit as st
-from predicthq import Client
+from predicthq import Client # type: ignore
 
 
 ATTENDED_CATEGORIES = [
@@ -70,13 +70,13 @@ def fetch_features(lat, lon, radius, date_from, date_to, features=[], radius_uni
             "radius": f"{radius}{radius_unit}",
         },
         active={
-            "gte": date_from,
-            "lte": date_to,
+            "gte": date_from.isoformat(),
+            "lte": date_to.isoformat(),
         },
         **{feature: True for feature in features},
     )
 
-    return features.to_dict()
+    return features.dict()
 
 
 # @st.cache_data
@@ -162,7 +162,7 @@ def fetch_events(
 #         sort="phq_attendance",
 #     )
 
-#     return events.to_dict()
+#     return events.dict()
 
 
 @st.cache_data
@@ -180,7 +180,7 @@ def fetch_event_counts(
         state="active",
     )
 
-    return counts.to_dict()
+    return counts.dict()
 
 
 def calc_sum_of_features(features_result, features):
